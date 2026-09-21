@@ -1,0 +1,237 @@
+{
+  "_metadata": {
+    "schemaVersion": "1.0",
+    "country": "FR",
+    "effectiveFrom": "2026-01-01",
+    "lastUpdated": "2026-05-02",
+    "displayName": "Référentiel fiscal France · 1er janvier 2026",
+    "_documentation": "Toutes les valeurs sont validées contre les sources officielles (BOFIP, impots.gouv.fr, service-public.gouv.fr, Légifrance, economie.gouv.fr) et croisées avec plusieurs sites spécialisés (Ramify, MoneyVox, Hagnéré Patrimoine). À mettre à jour lors des PLFSS / lois de finances (1-2 fois par an).",
+    "sources": [
+      "https://entreprendre.service-public.gouv.fr/actualites/A18796",
+      "https://www.service-public.gouv.fr/particuliers/vosdroits/F22449",
+      "https://www.service-public.gouv.fr/particuliers/vosdroits/F22414",
+      "https://www.service-public.gouv.fr/particuliers/actualites/A18841",
+      "https://www.service-public.gouv.fr/particuliers/vosdroits/F1419",
+      "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053143451",
+      "https://www.economie.gouv.fr/actualites/epargne-reglementee-de-nouveaux-taux-pour-le-livret-et-le-lep-au-1er-fevrier-2026"
+    ]
+  },
+
+  "constants": {
+    "_doc_pass": "Plafond Annuel de la Sécurité Sociale 2026, arrêté du 22 décembre 2025.",
+    "pass": 48060,
+    "pmss": 4005,
+
+    "_doc_pfu": "PFU complet = IR 12.8% + PS 18.6% = 31.4%. Hausse depuis le 1er janvier 2026 (LFSS 2026, loi 2025-1403, art. 12 → CSG capital passe de 9.2% à 10.6%).",
+    "pfuIncomeTax": 0.128,
+    "socialContributionsStandard": 0.186,
+    "socialContributionsReduced": 0.172,
+    "_doc_socialContributionsReduced": "Conservé à 17.2% pour : assurance vie, PEL/CEL ouverts depuis 2018, PEP, et certains revenus fonciers. Non concernés par la hausse 2026."
+  },
+
+  "tmi": {
+    "_doc": "Barème IR 2026 sur revenus 2025, par part de quotient familial.",
+    "brackets": [
+      { "upTo": 11600, "rate": 0.00 },
+      { "upTo": 29579, "rate": 0.11 },
+      { "upTo": 84577, "rate": 0.30 },
+      { "upTo": 181917, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+
+  "envelopes": {
+    "pea": {
+      "ceiling": 150000,
+      "maturityYears": 5,
+      "before5Years": {
+        "regime": "pfu_or_tmi",
+        "socialContributions": 0.186,
+        "incomeTaxFlat": 0.128
+      },
+      "after5Years": {
+        "regime": "social_only",
+        "incomeTax": 0.0,
+        "socialContributions": 0.186
+      }
+    },
+
+    "av": {
+      "_doc": "Assurance vie. PS conservés à 17.2% (non concerné par la hausse 2026). Abattement annuel à partir de 8 ans.",
+      "maturityYears": 8,
+      "premiumThreshold": 150000,
+      "before8Years": {
+        "regime": "pfu_or_tmi",
+        "socialContributions": 0.172,
+        "incomeTaxFlat": 0.128
+      },
+      "after8Years": {
+        "abatementSingle": 4600,
+        "abatementCouple": 9200,
+        "_doc_abatement": "Abattement annuel sur les gains rachetés. Cumulable sur l'ensemble des contrats AV.",
+        "incomeTaxBelow150kPremiums": 0.075,
+        "incomeTaxAbove150kPremiums": 0.128,
+        "socialContributions": 0.172,
+        "_doc_ps": "Les abattements ne s'appliquent pas sur les prélèvements sociaux."
+      }
+    },
+
+    "cto": {
+      "_doc": "Compte-Titres Ordinaire. Toujours soumis au PFU complet ou option barème.",
+      "regime": "pfu_or_tmi",
+      "socialContributions": 0.186,
+      "incomeTaxFlat": 0.128
+    },
+
+    "crypto": {
+      "_doc": "Plus-values sur actifs numériques (cession occasionnelle). Régime équivalent au PFU.",
+      "regime": "pfu_or_tmi",
+      "socialContributions": 0.186,
+      "incomeTaxFlat": 0.128
+    },
+
+    "per": {
+      "_doc": "Plan Épargne Retraite individuel. Versements déductibles à l'entrée (option). Sortie en capital ou en rente.",
+      "deductionMin": 4806,
+      "deductionMax": 38448,
+      "_doc_deduction": "Plafond déductible annuel = max(10% rev. pro net N-1, 10% PASS) avec maximum 8× PASS = 38 448 €. Plancher pour faibles revenus = 10% PASS = 4 806 €.",
+      "exitCapital": {
+        "deductedContributions": "tmi",
+        "_doc_deductedContributions": "Le capital correspondant aux versements précédemment déduits est réintégré au revenu imposable et taxé au TMI.",
+        "nonDeductedContributions": "exempt",
+        "gainsRegime": "pfu_or_tmi",
+        "gainsSocialContributions": 0.186,
+        "gainsIncomeTaxFlat": 0.128
+      },
+      "exitAnnuity": {
+        "regime": "pension_with_abatement",
+        "abatementRate": 0.10,
+        "_doc_abatement": "La rente issue d'un PER avec versements déduits est imposée comme une pension de retraite : barème IR avec abattement automatique de 10%.",
+        "socialContributions": 0.186
+      },
+      "after70_deductionRemoved": true,
+      "_doc_after70": "Depuis 2026, les versements après 70 ans ne sont plus déductibles."
+    },
+
+    "perco": {
+      "_doc": "PERCO/PERCOL d'entreprise. Sortie en capital exonérée d'IR sur les versements ; gains soumis aux PS.",
+      "exitCapital": {
+        "regime": "exempt_income_tax",
+        "incomeTax": 0.0,
+        "gainsSocialContributions": 0.186
+      },
+      "exitAnnuity": {
+        "regime": "pension_with_abatement",
+        "abatementRate": 0.10,
+        "socialContributions": 0.186
+      }
+    },
+
+    "peg": {
+      "_doc": "Plan Épargne Groupe / Plan Épargne Entreprise. Blocage 5 ans. Plus-value exonérée d'IR à la sortie ; PS dus.",
+      "blockingYears": 5,
+      "atExit": {
+        "regime": "exempt_income_tax",
+        "incomeTax": 0.0,
+        "gainsSocialContributions": 0.186
+      }
+    },
+
+    "pel": {
+      "_doc": "Plan Épargne Logement ouvert depuis 2018. Soumis à la flat tax dès le premier euro. PS conservés à 17.2%.",
+      "ceiling": 61200,
+      "interestRate": 0.020,
+      "_doc_rate": "Taux brut applicable aux PEL ouverts en 2026, fixé à l'ouverture pour toute la durée du plan.",
+      "regime": "pfu_or_tmi",
+      "socialContributions": 0.172,
+      "incomeTaxFlat": 0.128,
+      "scopeNote": "Pour les PEL ouverts avant 2018, la fiscalité varie par paliers (12 ans, 10 ans...). Cas hors scope V1."
+    },
+
+    "cel": {
+      "_doc": "Compte Épargne Logement ouvert depuis 2018. Flat tax dès le premier euro. PS conservés à 17.2%.",
+      "ceiling": 15300,
+      "interestRate": 0.0125,
+      "_doc_rate": "Taux brut indexé sur le Livret A. Variable, mis à jour 1-2 fois par an par la Banque de France.",
+      "regime": "pfu_or_tmi",
+      "socialContributions": 0.172,
+      "incomeTaxFlat": 0.128,
+      "scopeNote": "Pour les CEL ouverts avant 2018, la fiscalité varie. Cas hors scope V1."
+    },
+
+    "livretA": {
+      "ceiling": 22950,
+      "interestRate": 0.017,
+      "_doc_rate": "Taux applicable à partir du 1er août 2026.",
+      "taxFree": true
+    },
+
+    "ldds": {
+      "ceiling": 12000,
+      "interestRate": 0.017,
+      "_doc_rate": "Indexé sur le Livret A : même taux.",
+      "taxFree": true
+    },
+
+    "lep": {
+      "ceiling": 10000,
+      "interestRate": 0.025,
+      "_doc_rate": "Taux réglementé, toujours supérieur au Livret A. Révisé 1-2 fois par an.",
+      "taxFree": true,
+      "_doc_eligibility": "Réservé aux résidents fiscaux français sous conditions de revenu (RFR ≤ 22 823 € pour une personne seule en 2026)."
+    }
+  },
+
+  "disclaimers": {
+    "fr": "Calculs fiscaux indicatifs basés sur la législation française au 1er janvier 2026. Le résultat dépend de votre situation personnelle, de l'ensemble de vos revenus et de la durée effective de détention. Pour les PEL et CEL ouverts avant 2018, la fiscalité diffère et n'est pas couverte. Ne remplace pas un conseil d'un professionnel agréé (CIF, expert-comptable, notaire).",
+    "en": "Indicative tax calculations based on French law as of January 1, 2026. The actual outcome depends on your personal situation, your full income picture and the actual holding duration. For PEL and CEL opened before 2018, taxation differs and is not covered. Does not replace advice from a licensed professional (CIF, accountant, notary)."
+  },
+
+  "_doc_glossary": "Glossaire fiscal présenté à l'utilisateur dans Profil → Glossaire. Tableau ordonné (l'ordre = ordre d'affichage). Modifiable dans le JSON sans recompiler. Le terme est le titre, la définition le contenu repliable.",
+  "glossary": [
+    {
+      "term": "PFU (Prélèvement Forfaitaire Unique)",
+      "definition": "Imposition forfaitaire à 31,4 % en 2026 sur les gains de placements (CTO, dividendes, intérêts taxables, PEA avant 5 ans, PER en sortie capital pour la part des gains…). Composé de 12,8 % d'impôt sur le revenu + 18,6 % de prélèvements sociaux. Vous pouvez opter pour le barème progressif IR si votre TMI est plus avantageuse — Monevia choisit automatiquement le régime le plus favorable."
+    },
+    {
+      "term": "PFU réduit (30 %)",
+      "definition": "Pour l'assurance vie, le PEL et le CEL ouverts depuis 2018, les prélèvements sociaux restent à 17,2 % (non concernés par la hausse 2026). Le PFU global est donc de 30 % au lieu de 31,4 %."
+    },
+    {
+      "term": "TMI (Tranche Marginale d'Imposition)",
+      "definition": "Taux d'imposition appliqué à la dernière tranche de votre revenu. 5 valeurs en 2026 : 0 %, 11 %, 30 %, 41 %, 45 %. Visible sur votre dernier avis d'imposition (rubrique « Taux marginal d'imposition »). Si vous ne la connaissez pas, Monevia applique 30 % par défaut."
+    },
+    {
+      "term": "Prélèvements sociaux (PS)",
+      "definition": "Contributions obligatoires sur les revenus du capital : CSG (10,6 %), CRDS (0,5 %) et autres (7,5 %), pour un total de 18,6 % depuis le 1er janvier 2026. L'AV, le PEL/CEL post-2018 et le PEP conservent l'ancien taux de 17,2 %."
+    },
+    {
+      "term": "Abattement",
+      "definition": "Réduction de la base imposable. L'assurance vie après 8 ans bénéficie d'un abattement annuel sur les gains rachetés : 4 600 € (célibataire) ou 9 200 € (couple marié/PACS). Cet abattement ne s'applique qu'à l'impôt sur le revenu — les prélèvements sociaux restent dus sur la totalité du gain."
+    },
+    {
+      "term": "Plafond de versement",
+      "definition": "Limite de capital pouvant être placé sur certaines enveloppes. Plafonds 2026 : PEA 150 000 €, Livret A 22 950 €, LDDS 12 000 €, LEP 10 000 €, PEL 61 200 €, CEL 15 300 €. CTO, AV et PER sans plafond légal."
+    },
+    {
+      "term": "Seuil de maturité fiscale",
+      "definition": "Durée minimale de détention avant que l'enveloppe libère sa fiscalité avantageuse. Ne pas confondre avec votre horizon de simulation (variable) : c'est un paramètre légal fixe.\n\n• PEA : 5 ans (exonération d'IR)\n• Assurance vie : 8 ans (abattement annuel)\n• PEG/PEE : 5 ans (exonération d'IR)\n• PER : jusqu'à la retraite (sortie possible)"
+    },
+    {
+      "term": "Sortie en capital (PER)",
+      "definition": "À la retraite, vous récupérez le capital du PER en une ou plusieurs fois. Si vos versements ont été déduits du revenu imposable à l'entrée (cas usuel), ils sont réintégrés au revenu et taxés à votre TMI à la sortie. Les gains, quant à eux, sont taxés au PFU 31,4 %."
+    },
+    {
+      "term": "Sortie en rente (PER)",
+      "definition": "À la retraite, vous percevez une rente viagère mensuelle. Imposée comme une pension de retraite : barème progressif IR avec abattement automatique de 10 %, plus 18,6 % de prélèvements sociaux sur la fraction imposable. Choix entre capital et rente : dépend de la TMI à la retraite vs aujourd'hui."
+    },
+    {
+      "term": "Plafond de déduction PER",
+      "definition": "Plafond annuel de déductibilité fiscale des versements PER. En 2026 : maximum 38 448 € (10 % × 8 × PASS), avec un plancher à 4 806 € (10 % du PASS). Le PASS 2026 est de 48 060 €."
+    },
+    {
+      "term": "PASS (Plafond Annuel Sécurité Sociale)",
+      "definition": "Référence légale française servant de base à de nombreux calculs fiscaux et sociaux. Fixé à 48 060 € pour 2026 (+2 % vs 2025). Utilisé notamment pour le plafond de déduction PER."
+    }
+  ]
+}
