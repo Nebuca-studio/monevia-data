@@ -7,7 +7,7 @@
     {
       "id": "livret_a",
       "nom": "Livret A",
-      "taux_actuel": 1.5,
+      "taux_actuel": 1.7,
       "plafond": 22950,
       "garanti_etat": true,
       "fiscalite": "Exonéré d'impôts et de prélèvements sociaux",
