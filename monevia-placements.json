@@ -1,6 +1,6 @@
 {
-  "version": "2026-05",
-  "derniere_maj": "2026-05-30",
+  "version": "2026-09",
+  "derniere_maj": "2026-09-21",
   "avertissement": "Les rendements historiques sont indicatifs et ne préjugent pas des performances futures. Vérifiez toujours les données actuelles auprès de l'émetteur avant tout investissement réel.",
 
   "taux_livrets": [
@@ -12,13 +12,13 @@
       "garanti_etat": true,
       "fiscalite": "Exonéré d'impôts et de prélèvements sociaux",
       "actif": true,
-      "note": "Taux en vigueur depuis le 1er février 2026, révisable tous les 6 mois"
+      "note": "Taux en vigueur depuis le 1er août 2026, révisable tous les 6 mois"
     },
     {
       "id": "ldds",
       "nom": "LDDS",
       "nom_complet": "Livret de Développement Durable et Solidaire",
-      "taux_actuel": 1.5,
+      "taux_actuel": 1.7,
       "plafond": 12000,
       "garanti_etat": true,
       "fiscalite": "Exonéré d'impôts et de prélèvements sociaux",
@@ -39,7 +39,7 @@
     {
       "id": "livret_jeune",
       "nom": "Livret Jeune",
-      "taux_actuel": 1.5,
+      "taux_actuel": 1.7,
       "plafond": 1600,
       "garanti_etat": false,
       "garanti_fdgr": true,
@@ -51,7 +51,7 @@
       "id": "cel",
       "nom": "CEL",
       "nom_complet": "Compte Épargne Logement",
-      "taux_actuel": 1.0,
+      "taux_actuel": 1.25,
       "plafond": 15300,
       "garanti_etat": false,
       "garanti_fdgr": true,
