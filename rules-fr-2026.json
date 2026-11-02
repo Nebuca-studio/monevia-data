@@ -26,7 +26,10 @@
     "pfuIncomeTax": 0.128,
     "socialContributionsStandard": 0.186,
     "socialContributionsReduced": 0.172,
-    "_doc_socialContributionsReduced": "Conservé à 17.2% pour : assurance vie, PEL/CEL ouverts depuis 2018, PEP, et certains revenus fonciers. Non concernés par la hausse 2026."
+    "_doc_socialContributionsReduced": "Conservé à 17.2% pour : assurance vie, PEL/CEL ouverts depuis 2018, PEP, et certains revenus fonciers. Non concernés par la hausse 2026.",
+
+    "_doc_inflationAssumption": "Hypothèse d'inflation annuelle par défaut pour l'affichage en euros d'aujourd'hui (cible BCE 2 %). L'utilisateur peut la remplacer dans Paramètres.",
+    "inflationAssumption": 0.02
   },
 
   "tmi": {
@@ -38,6 +41,24 @@
       { "upTo": 181917, "rate": 0.41 },
       { "upTo": null, "rate": 0.45 }
     ]
+  },
+
+  "incomeTax": {
+    "_doc": "Calcul de l'impôt sur le revenu, imposition 2026 des revenus 2025 (LF 2026, seuils revalorisés de 0,9 %). Les tranches sont celles du bloc tmi.",
+    "revenueYear": 2025,
+    "decote": {
+      "_doc": "Décote = forfait − taux × impôt brut, si positive (s'annule à 1 982 € seul, 3 277 € en couple).",
+      "single": 897,
+      "couple": 1483,
+      "rate": 0.4525
+    },
+    "familyQuotientCap": {
+      "_doc": "Avantage maximal par demi-part au-delà des parts de base (1 seul, 2 en couple). Parent isolé (case T) : la part entière du premier enfant est plafonnée à singleParentFirstPart.",
+      "halfPart": 1807,
+      "singleParentFirstPart": 4262
+    },
+    "_doc_collectionThreshold": "Impôt non mis en recouvrement en dessous de ce montant.",
+    "collectionThreshold": 61
   },
 
   "envelopes": {
