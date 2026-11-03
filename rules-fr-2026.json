@@ -58,7 +58,15 @@
       "singleParentFirstPart": 4262
     },
     "_doc_collectionThreshold": "Impôt non mis en recouvrement en dessous de ce montant.",
-    "collectionThreshold": 61
+    "collectionThreshold": 61,
+    "salaryDeduction": {
+      "_doc": "Déduction forfaitaire de 10 % sur les salaires (net fiscal), par déclarant : plancher et plafond des revenus 2025 (LF 2026, +0,9 %).",
+      "rate": 0.10,
+      "min": 509,
+      "max": 14555
+    },
+    "_doc_advanceRate": "Avance versée en janvier sur les réductions et crédits récurrents (dons, emploi à domicile, garde d'enfants…), reprise au solde de septembre.",
+    "advanceRate": 0.60
   },
 
   "envelopes": {
